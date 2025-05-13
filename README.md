@@ -1,8 +1,11 @@
 # codingTest
-[코딩테스트] 하루 1문제 풀기 도전!
+### [코딩테스트] 하루 1문제 풀기 도전! <br>
+-> BaekJoon Hub를 이용한 자동 업로드
+<br><br>
 
 ### BaekJoon (백준)
 URL: https://www.acmicpc.net/
+
 - Main.java로 제출해야 함.
 ~~~ java
 // Main 입력 시, 대문자 M으로 시작해라. 제발.
@@ -12,12 +15,14 @@ public class Main {
 	}
 }
 ~~~
+<br>
 
 - import문은 C++처럼 내가 수기로 작성
 ~~~ java
 import java.util.*; // 자료구조와 유틸리티 클래스들이 포함된 패키지
 import java.io.*;   // 입출력 스트림 관련 클래스들이 포함 (프로그래머스는 불필요)
 ~~~
+<br>
 
 - 입력(input) 시, Scanner 대신 BufferedReader을 사용
 ~~~ java
@@ -58,4 +63,5 @@ class Solution {
     }
 }
 ~~~
+<br>
 - 열심히 잘 풀면 댐 ^^
