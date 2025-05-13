@@ -3,7 +3,7 @@
 -> BaekJoon Hub를 이용한 자동 업로드
 <br><br>
 
-### BaekJoon (백준)
+### BaekJoon (Java.백준)
 URL: https://www.acmicpc.net/
 
 - Main.java로 제출해야 함.
@@ -51,7 +51,7 @@ public class Main {
 ~~~
 <br><br>
 
-### Programmers (프로그래머스)
+### Programmers (Java.프로그래머스)
 URL: https://programmers.co.kr/
 
 - main 문이 없음 <br>
