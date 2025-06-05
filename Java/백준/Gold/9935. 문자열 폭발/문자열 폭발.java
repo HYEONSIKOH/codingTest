@@ -8,28 +8,27 @@ public class Main {
     private static void solutuion(String str, String explosion) {
         char[] cs = str.toCharArray();
         char[] es = explosion.toCharArray();
+        int eLen = explosion.length();
 
         Stack<Character> s = new Stack<>();
 
         for (char c : cs) {
             s.push(c);
-            int eLen = explosion.length();
-
-            boolean boom = false;
+            
             if (s.size() >= eLen) {
+                boolean boom = true;
+                
                 for (int i = 0; i < eLen; i++) {
-                    if (s.get(s.size() - 1 - i).equals(es[eLen - 1 - i]))
-                        boom = true;
-                    else {
+                    if (s.get(s.size() - 1 - i) != es[eLen - 1 - i]) {
                         boom = false;
                         break;
                     }
                 }
-            }
 
-            if (boom) {
-                for (int i = 0; i < eLen; i++) {
-                    s.pop();
+                if (boom) {
+                    for (int i = 0; i < eLen; i++) {
+                        s.pop();
+                    }
                 }
             }
         }
