@@ -10,25 +10,23 @@ public class Main {
         char[] es = explosion.toCharArray();
         int eLen = explosion.length();
 
-        Stack<Character> s = new Stack<>();
+        StringBuilder s = new StringBuilder();
 
         for (char c : cs) {
-            s.push(c);
-            
-            if (s.size() >= eLen) {
-                boolean boom = true;
-                
+            s.append(c);
+
+            if (s.length() >= eLen) {
+                boolean isBoom = true;
+
                 for (int i = 0; i < eLen; i++) {
-                    if (s.get(s.size() - 1 - i) != es[eLen - 1 - i]) {
-                        boom = false;
+                    if (s.charAt(s.length() - 1 - i) != es[eLen - 1 - i]) {
+                        isBoom = false;
                         break;
                     }
                 }
 
-                if (boom) {
-                    for (int i = 0; i < eLen; i++) {
-                        s.pop();
-                    }
+                if (isBoom) {
+                    s.delete(s.length() - eLen, s.length());
                 }
             }
         }
@@ -37,12 +35,10 @@ public class Main {
          * String에 문자를 추가하게 되면, 매번 새로운 String 객체가 생성 -> MemoryOverFlow
          * StringBuilder를 사용 -> StringBuilder는 내부적으로 char[]를 사용하여 메모리 효율적
          */
-        if (s.isEmpty()) {
+        if (s.length() == 0) {
             System.out.print("FRULA");
         } else {
-            StringBuilder sb = new StringBuilder();
-            for (char c : s) sb.append(c);
-            System.out.print(sb);
+            System.out.print(s);
         }
     }
 
