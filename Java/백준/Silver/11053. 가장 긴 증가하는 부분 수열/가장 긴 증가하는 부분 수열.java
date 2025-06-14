@@ -6,20 +6,20 @@ public class Main {
     private static StringTokenizer st;
 
     private static int solution(int N, int[] arr) {
-        int ans = 1;
-        int[] dp = new int[N];
-        Arrays.fill(dp, 1);
+        int[] temp = new int[N];
+        temp[0] = arr[0];
+        int idx = 1;
 
         for (int i = 1; i < N; i++) {
-            for (int j = 0; j < i; j++) {
-                if (arr[i] > arr[j]) {
-                    dp[i] = Math.max(dp[i], dp[j] + 1);
-                    ans = Math.max(ans, dp[i]);
-                }
+            if (arr[i] > temp[idx - 1]) temp[idx++] = arr[i];
+            else {
+                int pos = Arrays.binarySearch(temp, 0, idx, arr[i]);
+                if (pos < 0) pos = -(pos + 1);
+                temp[pos] = arr[i];
             }
         }
 
-        return ans;
+        return idx;
     }
 
     public static void main(String[] args) throws IOException {
