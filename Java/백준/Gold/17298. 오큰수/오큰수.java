@@ -5,23 +5,17 @@ public class Main {
 
     private static void solution(int N, int[] arr) {
         // Stack
-        Deque<Integer> stack = new ArrayDeque<>();
+        Deque<Integer> s = new ArrayDeque<>();
         int[] ans = new int[N];
 
-        for (int i = N - 1; i >= 0 ; i--) {
-            int num = arr[i];
+        for (int i = 0; i < N ; i++) {
+            while (!s.isEmpty() && arr[s.peek()] < arr[i])
+                ans[s.pop()] = arr[i];
 
-            while (!stack.isEmpty()) {
-                if (num < stack.peek()) {
-                    ans[i] = stack.peek();
-                    break;
-                }
-                stack.pop();
-            }
-
-            if (stack.isEmpty()) ans[i] = -1;
-            stack.push(num);
+            s.push(i);
         }
+
+        while (!s.isEmpty()) ans[s.pop()] = -1;
 
         StringBuilder sb = new StringBuilder();
         for (int i : ans) sb.append(i).append(' ');
