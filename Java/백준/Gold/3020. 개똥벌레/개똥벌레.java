@@ -3,12 +3,12 @@ import java.io.*;
 
 public class Main {
     private static int[] solution(int N, int H, int[] up, int[] down) {
-        Arrays.sort(up);
-        Arrays.sort(down);
+        for (int i = H; i > 0; i--) down[i] += down[i + 1];
+        for (int i = 1; i <= H; i++) up[i] += up[i - 1];
 
         int[] ans = new int[]{Integer.MAX_VALUE, 0};
         for (int i = 1; i <= H; i++) {
-            int cnt = binarySearch(up, i, N/2) + binarySearch(down, H - i + 1, N/2);
+            int cnt = up[i] + down[i];
             if (ans[0] > cnt) {
                 ans[0] = cnt;
                 ans[1] = 1;
@@ -16,19 +16,6 @@ public class Main {
         }
 
         return ans;
-    }
-
-    private static int binarySearch(int[] arr, int target, int R) {
-        int L = 0;
-
-        while (L < R) {
-            int M = (L + R) / 2;
-
-            if (arr[M] < target) L = M + 1;
-            else R = M;
-        }
-
-        return arr.length - R;
     }
 
     public static void main(String[] args) throws IOException {
@@ -39,11 +26,12 @@ public class Main {
         int N = Integer.parseInt(st.nextToken());
         int H = Integer.parseInt(st.nextToken());
 
-        int[] up = new int[N/2];
-        int[] down  = new int[N/2];
+        int[] up = new int[H + 2];
+        int[] down  = new int[H + 2];
         for (int i = 0; i < N; i++) {
-            if (i % 2 == 0) up[i/2] = Integer.parseInt(br.readLine());
-            else down[i/2] = Integer.parseInt(br.readLine());
+            int h = Integer.parseInt(br.readLine());
+            if (i % 2 == 0) up[H - h + 1]++;
+            else down[h]++;
         }
 
         int[] res = solution(N, H, up, down);
