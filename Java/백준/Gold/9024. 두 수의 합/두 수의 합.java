@@ -33,6 +33,8 @@ public class Main {
 
         int cnt = Integer.parseInt(br.readLine());
         while(cnt-- > 0) {
+            System.gc();
+            
             StringTokenizer st = new StringTokenizer(br.readLine());
             int n = Integer.parseInt(st.nextToken());
             int k = Integer.parseInt(st.nextToken());
