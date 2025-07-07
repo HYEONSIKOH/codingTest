@@ -28,26 +28,64 @@ public class Main {
     }
 
     public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        InputReader in = new InputReader();
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
-        int cnt = Integer.parseInt(br.readLine());
+        int cnt = in.nextInt();
         while(cnt-- > 0) {
             System.gc();
-            
-            StringTokenizer st = new StringTokenizer(br.readLine());
-            int n = Integer.parseInt(st.nextToken());
-            int k = Integer.parseInt(st.nextToken());
+
+            int n = in.nextInt();
+            int k = in.nextInt();
 
             int[] arr = new int[n];
-            st = new StringTokenizer(br.readLine());
-            for (int i = 0; i < n; i++)
-                arr[i] = Integer.parseInt(st.nextToken());
+            for (int i = 0; i < n; i++) arr[i] = in.nextInt();
 
             bw.write(solution(n, k, arr) + "\n");
         }
 
         bw.flush();
         bw.close();
+    }
+
+    static class InputReader {
+        public byte[] buf;
+        public int buf_p, size;
+
+        public InputReader() {
+            buf = new byte[1 << 24];
+            buf_read();
+        }
+
+        public int nextInt() {
+            if (buf_p == size) buf_read();
+            if (size == -1) return -1;
+
+            int i = 0;
+            boolean negative = false;
+            if (buf[buf_p] == '-') {
+                negative = true;
+                if (++buf_p == size) buf_read();
+            }
+
+            while (true) {
+                if (buf[buf_p] < 48 || buf[buf_p] > 57) {
+                    buf_p++;
+                    return negative ? -i : i;
+                }
+                i = 10 * i + buf[buf_p++] - 48;
+
+                if (buf_p == size) buf_read();
+            }
+        }
+
+        private void buf_read() {
+            try {
+                size = System.in.read(buf);
+                buf_p = 0;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
