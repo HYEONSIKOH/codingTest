@@ -8,25 +8,20 @@ public class Main {
         Arrays.sort(arr);
         int[] ans = new int[3];
 
-        for (int i = 0; i < N; i++)
+        for (int i = 0; i < N; i++) {
             binarySearch(N, arr, i, ans);
+            if (ans[0] + ans[1] + ans[2] == 0) break;
+        }
 
         Arrays.sort(ans);
         return ans;
     }
 
     private static int[] binarySearch(int N, int[] arr, int targetIdx, int[] ans) {
-        int L = targetIdx, R = N - 1;
+        int L = targetIdx + 1, R = N - 1;
         int target = arr[targetIdx];
 
         while (L < R) {
-            if (targetIdx == L || targetIdx == R) {
-                if (targetIdx == L) L++;
-                else R--;
-
-                continue;
-            }
-
             long sum = (long)target + arr[L] + arr[R];
             if (Math.abs(sum) <= minDiffAbsSum) {
                 minDiffAbsSum = Math.abs(sum);
