@@ -16,7 +16,7 @@ public class Main {
     }
 
     private static int[] binarySearch(int N, int[] arr, int targetIdx, int[] ans) {
-        int L = 0, R = N - 1;
+        int L = targetIdx, R = N - 1;
         int target = arr[targetIdx];
 
         while (L < R) {
@@ -36,7 +36,8 @@ public class Main {
             }
 
             if (sum < 0) L++;
-            else R--;
+            else if (sum > 0) R--;
+            else break;
         }
 
         return ans;
