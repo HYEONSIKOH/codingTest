@@ -8,7 +8,12 @@ public class Main {
         Arrays.fill(dist, Integer.MAX_VALUE);
 
         dist[K] = 0;
-        PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(o -> o[1]));
+        PriorityQueue<int[]> pq = new PriorityQueue<>(new Comparator<int[]>(){
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o1[1] - o2[1];
+            }
+        });
 
         pq.add(new int[]{K, 0});
         while (!pq.isEmpty()) {
