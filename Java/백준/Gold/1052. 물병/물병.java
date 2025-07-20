@@ -5,9 +5,9 @@ public class Main {
 
     private static int solution(int N, int K) {
         int ans = 0;
-        while (Integer.bitCount(N) > K) {
-            N++;
-            ans++;
+        while(Integer.bitCount(N) > K) {
+            ans += N & -N;
+            N += N & -N;
         }
 
         return ans;
