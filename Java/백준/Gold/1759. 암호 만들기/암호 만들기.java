@@ -2,21 +2,17 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
-    private static boolean[] visited;
     private static char[] arr;
     private static BufferedWriter bw;
 
     private static void solution(int L, int C, char[] arr) throws IOException {
         Arrays.sort(arr);
-        visited = new boolean[C];
 
         for (int i = 0; i < C; i++) {
-            visited[i] = true;
             if (arr[i] == 'a' || arr[i] == 'e' || arr[i] == 'i' || arr[i] == 'o' || arr[i] == 'u')
                 backtrack(L, C, 1, 0, i, new StringBuilder(String.valueOf(arr[i])));
             else
                 backtrack(L, C, 0, 1, i, new StringBuilder(String.valueOf(arr[i])));
-            visited[i] = false;
         }
     }
 
@@ -29,14 +25,14 @@ public class Main {
         }
 
         for (int i = idx + 1; i < C; i++) {
-            if (!visited[i]) {
-                visited[i] = true;
-                if (arr[i] == 'a' || arr[i] == 'e' || arr[i] == 'i' || arr[i] == 'o' || arr[i] == 'u')
-                    backtrack(L, C, conCnt + 1, vowCnt, i, new StringBuilder(sb).append(arr[i]));
-                else
-                    backtrack(L, C, conCnt, vowCnt + 1, i, new StringBuilder(sb).append(arr[i]));
-                visited[i] = false;
-            }
+            sb.append(arr[i]);
+
+            if (arr[i] == 'a' || arr[i] == 'e' || arr[i] == 'i' || arr[i] == 'o' || arr[i] == 'u')
+                backtrack(L, C, conCnt + 1, vowCnt, i, sb);
+            else
+                backtrack(L, C, conCnt, vowCnt + 1, i, sb);
+
+            sb.deleteCharAt(sb.length() - 1);
         }
     }
 
