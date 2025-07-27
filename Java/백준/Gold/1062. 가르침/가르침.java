@@ -5,14 +5,23 @@ import static java.lang.Integer.parseInt;
 
 public class Main {
     private static boolean[] visited = new boolean[26];
+    private static int bitmask = 0;
     private static int ans = -1;
 
     private static int solution(int N, int K, String[] words){
         if (K < 5) return 0;
 
-        String[] newWards = new String[N];
-        for (int i = 0; i < N; i++)
-            newWards[i] = words[i].substring(4, words[i].length() - 4);
+        int[] newWards = new int[N];
+        for (int i = 0; i < N; i++) {
+            String word = words[i];
+            int bitmask = 0;
+
+            for (char c : word.toCharArray()) {
+                bitmask |= (1 << (c - 'a'));
+            }
+
+            newWards[i] = bitmask;
+        }
 
         visited['a' - 'a'] = true;
         visited['n' - 'a'] = true;
@@ -20,13 +29,22 @@ public class Main {
         visited['i' - 'a'] = true;
         visited['c' - 'a'] = true;
 
+        for (int i = 0; i < 26; i++) {
+            if (visited[i]) bitmask |= (1 << i);
+        }
+
         backtrack(-1, 0, K - 5, newWards);
 
         return ans;
     }
 
-    private static void backtrack(int idx, int cnt, int K, String[] words) {
+    private static void backtrack(int idx, int cnt, int K, int[] words) {
         if (cnt > K) return;
+
+        bitmask = 0;
+        for (int i = 0; i < 26; i++) {
+            if (visited[i]) bitmask |= (1 << i);
+        }
 
         ans = Math.max(ans, isValid(words));
 
@@ -39,20 +57,11 @@ public class Main {
         }
     }
 
-    private static int isValid(String[] words) {
+    private static int isValid(int[] words) {
         int cnt = 0;
 
-        for (String word : words) {
-            boolean isPossible = true;
-
-            for (char c : word.toCharArray()) {
-                if (!visited[c - 'a']) {
-                    isPossible = false;
-                    break;
-                }
-            }
-
-            if (isPossible) cnt++;
+        for (int word : words) {
+            if ((bitmask & word) == word) cnt++;
         }
 
         return cnt;
