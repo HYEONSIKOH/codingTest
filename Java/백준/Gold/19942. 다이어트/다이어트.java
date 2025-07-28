@@ -12,32 +12,21 @@ public class Main {
         int visited = 0;
 
         for (int i = 0; i < N; i++)
-            backtrack(N, i, 1, visited | (1 << i), ingredients);
+            backtrack(N, i, 1, visited | (1 << i), 0, 0, 0, 0, 0, ingredients);
     }
 
-    private static void backtrack(int N, int idx, int cnt, int visited, int[][] ingredients) throws IOException {
+    private static void backtrack(int N, int idx, int cnt, int visited, int a, int b, int c, int d, int cost, int[][] ingredients) throws IOException {
         if (cnt > N) return;
-        else calculate(visited, ingredients);
 
-        for (int i = idx + 1; i < N; i++) {
-            if ((visited & (1 << i)) == 0)
-                backtrack(N, i, cnt + 1, visited | (1 << i), ingredients);
-        }
-    }
+        a += ingredients[idx][0];
+        b += ingredients[idx][1];
+        c += ingredients[idx][2];
+        d += ingredients[idx][3];
+        cost += ingredients[idx][4];
 
-    private static void calculate(int visited, int[][] ingredients) throws IOException {
-        int[] sumIngredients = new int[5];
-
-        for (int i = 0; i < ingredients.length; i++) {
-            if ((visited & (1 << i)) != 0) {
-                for (int j = 0; j < 5; j++)
-                    sumIngredients[j] += ingredients[i][j];
-            }
-        }
-
-        if (sumIngredients[0] >= baseline[0] && sumIngredients[1] >= baseline[1] && sumIngredients[2] >= baseline[2] && sumIngredients[3] >= baseline[3]) {
-            if (ansCost > sumIngredients[4]) {
-                ansCost = sumIngredients[4];
+        if (a >= baseline[0] && b >= baseline[1] && c >= baseline[2] && d >= baseline[3]) {
+            if (ansCost > cost) {
+                ansCost = cost;
 
                 res.setLength(0);
                 res.append(ansCost).append("\n");
@@ -48,6 +37,11 @@ public class Main {
                     }
                 }
             }
+        }
+
+        for (int i = idx + 1; i < N; i++) {
+            if ((visited & (1 << i)) == 0)
+                backtrack(N, i, cnt + 1, visited | (1 << i), a, b, c, d, cost, ingredients);
         }
     }
 
