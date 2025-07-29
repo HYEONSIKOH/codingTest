@@ -4,22 +4,24 @@ import java.io.*;
 import static java.lang.Integer.*;
 
 public class Main {
-    private static String solution(int N, int M, List<Integer>[] arr) {
+    private static List<Integer>[] arr;
+
+    private static String solution(int N, int M) {
         int visited = 0;
 
         for (int i = 0; i < N; i++)
-            if (backtrack(i, 1, visited | (1 << i), arr))
+            if (backtrack(i, 1, visited | (1 << i)))
                 return "1";
 
         return "0";
     }
 
-    private static boolean backtrack(int idx, int cnt, int visited, List<Integer>[] arr) {
+    private static boolean backtrack(int idx, int cnt, int visited) {
         if (cnt == 5) return true;
 
         for (int next : arr[idx]) {
             if ((visited & (1 << next)) == 0) {
-                if (backtrack(next, cnt + 1, visited | (1 << next), arr)) {
+                if (backtrack(next, cnt + 1, visited | (1 << next))) {
                     return true;
                 }
             }
@@ -36,7 +38,7 @@ public class Main {
         int N = parseInt(st.nextToken());
         int M = parseInt(st.nextToken());
 
-        List<Integer>[] arr = new ArrayList[N];
+        arr = new ArrayList[N];
         for (int i = 0; i < N; i++)
             arr[i] = new ArrayList<>();
 
@@ -49,7 +51,7 @@ public class Main {
             arr[e].add(s);
         }
 
-        bw.write(solution(N, M, arr));
+        bw.write(solution(N, M));
 
         // System.gc();
         bw.flush();
