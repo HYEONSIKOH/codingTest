@@ -19,6 +19,8 @@ public class Main {
     }
 
     private static void backtrack(int n) {
+        if (n >= standard * 10) return;
+        
         if (standard <= n && n < standard * 10)
             sb.append(n).append("\n");
 
