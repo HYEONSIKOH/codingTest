@@ -4,16 +4,13 @@ import java.io.*;
 import static java.lang.Integer.*;
 
 public class Main {
-    private static char[] arr;
-    private static List<String> strings;
+    private static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+
     private static int size;
-    private static String temp;
     private static int[] alphabet;
 
-    private static void solution(char[] arr) {
+    private static void solution(char[] arr) throws IOException {
         size = arr.length;
-        strings = new ArrayList<>();
-        temp = "";
         alphabet = new int[26];
         Arrays.sort(arr);
 
@@ -29,10 +26,9 @@ public class Main {
         }
     }
 
-    private static void backtrack(StringBuilder sb) {
-        //System.out.println(sb.toString());
+    private static void backtrack(StringBuilder sb) throws IOException {
         if (sb.length() == size) {
-            strings.add(sb.toString());
+            bw.write(sb + "\n");
             return;
         }
 
@@ -48,16 +44,12 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
         int N = parseInt(br.readLine());
 
         while (N-- > 0) {
-            arr = br.readLine().toCharArray();
+            char[] arr = br.readLine().toCharArray();
             solution(arr);
-
-            for (String string : strings)
-                bw.write(string + "\n");
         }
 
         // System.gc();
