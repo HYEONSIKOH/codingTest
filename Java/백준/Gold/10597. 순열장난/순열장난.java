@@ -2,8 +2,6 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
-    private static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-
     private static int size;
     private static int range;
 
@@ -17,7 +15,7 @@ public class Main {
         // 가장 큰 수 구하기
         if (size > 10) range = (size - 10) / 2 + 10;
         else range = size;
-        
+
         visited = new boolean[range + 1];
         ans = new int[range];
         for (int i = 1; i <= range; i++) {
@@ -78,12 +76,13 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        // BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
         arr = br.readLine().toCharArray();
         solution();
 
         // System.gc();
-        bw.flush();
-        bw.close();
+        // bw.flush();
+        // bw.close();
     }
 }
