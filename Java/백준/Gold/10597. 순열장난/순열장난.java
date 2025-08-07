@@ -34,7 +34,7 @@ public class Main {
             }
 
             if (i >= 10){
-                int num = parseInt("" + arr[0] + arr[1]);
+                int num = (arr[0] - '0') * 10 + (arr[1] - '0');
                 if (num == i) {
                     sb.append(num).append(" ");
                     visited[i] = true;
@@ -66,7 +66,7 @@ public class Main {
             }
 
             if (idx + 2 < size && i >= 10) {
-                int num = parseInt("" + arr[idx + 1] + arr[idx + 2]);
+                int num = (arr[idx + 1] - '0') * 10 + (arr[idx + 2] - '0');
                 if (num == i) {
                     sb.append(num).append(" ");
                     visited[i] = true;
