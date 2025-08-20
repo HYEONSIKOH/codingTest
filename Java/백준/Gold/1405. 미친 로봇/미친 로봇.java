@@ -3,6 +3,8 @@ import java.util.*;
 
 public class Main {
     private static final double[] arr = new double[4];
+    private static final int[] dx = {1, -1, 0, 0};
+    private static final int[] dy = {0, 0, 1, -1};
     private static boolean[][] visited;
 
     private static int N;
@@ -19,30 +21,11 @@ public class Main {
         System.out.print(String.valueOf(solution()));
     }
 
-    private static int[] calPosWithIdx(int idx) {
-        // 0: 동, 1: 서, 2: 남, 3: 북
-        switch (idx) {
-            case 0 : return new int[]{1, 0};  // 동
-            case 1 : return new int[]{-1, 0}; // 서
-            case 2 : return new int[]{0, 1};  // 남
-            case 3 : return new int[]{0, -1}; // 북
-            default : return new int[]{-1, -1};
-        }
-    }
-
     private static double solution() {
         visited = new boolean[2 * N + 1][2 * N + 1];
         visited[N][N] = true;
 
-        for (int i = 0; i < 4; i++) {
-            if (arr[i] != 0) {
-                int[] pos = calPosWithIdx(i);
-
-                visited[N + pos[0]][N + pos[1]] = true;
-                backtrack(1, N + pos[0], N + pos[1], arr[i]);
-                visited[N + pos[0]][N + pos[1]] = false;
-            }
-        }
+        backtrack(0, N, N, 1.0);
 
         return ans;
     }
@@ -54,8 +37,7 @@ public class Main {
         }
 
         for (int i = 0; i < 4; i++) {
-            int[] pos = calPosWithIdx(i);
-            int[] nextPos = {x + pos[0], y + pos[1]};
+            int[] nextPos = {x + dx[i], y + dy[i]};
 
             if (arr[i] != 0 && !visited[nextPos[0]][nextPos[1]]) {
                 visited[nextPos[0]][nextPos[1]] = true;
