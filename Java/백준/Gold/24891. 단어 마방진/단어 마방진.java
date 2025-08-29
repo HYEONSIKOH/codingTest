@@ -39,13 +39,13 @@ public class Main {
     }
 
     private static void backTrack(int idx, int visited) {
-        if (idx == L) {
-            for (int i = 0; i < L; i++) {
-                for (int j = 0; j < L; j++) {
-                    if (arrs[ans[i]][j] != arrs[ans[j]][i]) return;
-                }
-            }
-
+        // 유효성 검사
+        if (idx <= L) {
+            for (int i = 0; i < idx - 1; i++)
+                if (arrs[ans[i]][idx - 1] != arrs[ans[idx - 1]][i]) return;
+        } 
+        
+        if (idx >= L) {
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < L; i++)
                 sb.append(arrs[ans[i]]).append('\n');
@@ -54,6 +54,7 @@ public class Main {
             System.exit(0);
         }
 
+        // 다음 순번
         for (int i = 0; i < N; i++) {
             if ((visited & (1 << i)) != 0) continue;
             ans[idx] = i;
