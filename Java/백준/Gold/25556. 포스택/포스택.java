@@ -3,7 +3,6 @@ import java.util.*;
 
 public class Main {
     private static int[] stack = new int[4];
-    private static int[] arr;
     private static int N;
 
     public static void main(String[] args) throws IOException {
@@ -11,36 +10,24 @@ public class Main {
         StringTokenizer st;
 
         N = Integer.parseInt(br.readLine());
-        arr = new int[N];
         st = new StringTokenizer(br.readLine());
 
-        for (int i = 0; i < N; i++)
-            arr[i] = Integer.parseInt(st.nextToken());
-
-        backTrack(0);
-        System.out.println("NO");
-    }
-
-    private static void backTrack(int idx) {
-        if (idx == N) {
-            System.out.println("YES");
-            System.exit(0);
-        }
-
-        for (int i = 0; i < 4; i++) {
-            int temp = stack[i];
-            if (temp < arr[idx]) {
-                stack[i] = arr[idx];
-                backTrack(idx + 1);
-                stack[i] = temp;
+        for (int cnt = 0; cnt < N; cnt++) {
+            int x = Integer.parseInt(st.nextToken());
+            int best = -1, bestTop = 0;
+            for (int i = 0; i < 4; i++) {
+                int t = stack[i];
+                if (t < x && t >= bestTop) {
+                    bestTop = t;
+                    best = i;
+                }
             }
-
-            if (temp == 0) {
-                stack[i] = arr[idx];
-                backTrack(idx + 1);
-                stack[i] = 0;
-                break;
+            if (best == -1) {
+                System.out.println("NO");
+                return;
             }
+            stack[best] = x;
         }
+        System.out.println("YES");
     }
 }
