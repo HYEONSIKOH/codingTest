@@ -5,7 +5,6 @@ public class Main {
     private static int[] cookTimes;
     private static int N, K, C;
     private static long ans = Long.MAX_VALUE;
-    private static final long maxTime = 1000000L * 1000000L;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -20,11 +19,15 @@ public class Main {
         for (int i = 0; i < N; i++)
             cookTimes[i] = Integer.parseInt(st.nextToken());
 
-        backTrack(0);
+        backTrack(0, 0);
         System.out.println(ans);
     }
 
     private static long getCookMinTime() {
+        long maxTime = 0;
+        for (int time : cookTimes)
+            maxTime = Math.max(maxTime, (long) time * K);
+
         long L = 0, R = maxTime;
 
         while (L < R) {
@@ -43,7 +46,7 @@ public class Main {
         return L;
     }
 
-    private static void backTrack(int idx){
+    private static void backTrack(int idx, int start){
         if (idx >= C) {
             // 탐색
             long minTime = getCookMinTime();
@@ -54,13 +57,13 @@ public class Main {
             return;
         }
 
-        for (int i = 0; i < N; i++) {
+        for (int i = start; i < N; i++) {
             if (cookTimes[i] <= 1) {
-                if (i == N-1) backTrack(idx + 1);
+                if (i == N-1) backTrack(idx + 1, i);
                 continue;
             }
             cookTimes[i] -= 1;
-            backTrack(idx + 1);
+            backTrack(idx + 1, i);
             cookTimes[i] += 1;
         }
     }
