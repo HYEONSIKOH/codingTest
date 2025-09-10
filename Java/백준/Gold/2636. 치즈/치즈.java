@@ -33,13 +33,6 @@ public class Main {
         int[][] visited;
         Deque<int[]> q = new ArrayDeque<>();
 
-        for (int[] n: arr) {
-            for (int m: n) {
-                if (m == 1)
-                    ans2++;
-            }
-        }
-
         while (true) {
             int cnt = 0;
             for (int[] n: arr) {
