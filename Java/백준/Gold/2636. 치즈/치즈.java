@@ -41,6 +41,19 @@ public class Main {
         }
 
         while (true) {
+            int cnt = 0;
+            for (int[] n: arr) {
+                for (int m: n) {
+                    if (m == 1) cnt++;
+                }
+            }
+
+            if (cnt == 0) break;
+            else {
+                ans1++;
+                ans2 = cnt;
+            }
+
             visited = new int[N][M];
             q.offer(new int[] {0, 0});
             visited[0][0] = 1;
@@ -68,18 +81,6 @@ public class Main {
                         arr[i][j] = 0;
                 }
             }
-
-            int cnt = 0;
-            for (int[] n: arr) {
-                for (int m: n) {
-                    if (m == 1)
-                        cnt++;
-                }
-            }
-
-            ans1++;
-            if (cnt == 0) break;
-            else ans2 = cnt;
         }
     }
 
