@@ -46,7 +46,7 @@ public class Main {
             for (int j = 0; j < startPoints.size(); j++) {
                 int x = startPoints.get(j)[0];
                 int y = startPoints.get(j)[1];
-                moveStartPoint(j, x, y);
+                move(j, x, y);
             }
         }
 
@@ -73,7 +73,7 @@ public class Main {
         }
     }
 
-    private static void moveStartPoint(int idx, int x, int y) {
+    private static void move(int idx, int x, int y) {
         int dir = 0, temp = visited[x][y], num = arr[x][y];
 
         while (true) {
@@ -97,11 +97,14 @@ public class Main {
     }
 
     private static void printArr() {
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < M; j++)
-                System.out.print(arr[i][j] + " ");
-            System.out.println();
+                sb.append(arr[i][j]).append(" ");
+            sb.append("\n");
         }
+
+        System.out.println(sb);
     }
 
 
