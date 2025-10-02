@@ -52,6 +52,8 @@ public class Main {
             if (visited[cur.to] <= cur.cost) continue;
             else visited[cur.to] = cur.cost;
 
+            if (cur.to == e) return cur.cost;
+
             for (Node next : g[cur.to]) {
                 if (visited[next.to] > cur.cost + next.cost)
                     pq.add(new Node(next.to, cur.cost + next.cost));
