@@ -2,7 +2,7 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
-    private static int[][] arr;
+    private static boolean[][] arr;
 
     private static final int[] dx = {-1, 1, 0, 0};
     private static final int[] dy = {0, 0, -1, 1};
@@ -16,11 +16,11 @@ public class Main {
         M = Integer.parseInt(st.nextToken());
         N = Integer.parseInt(st.nextToken());
 
-        arr = new int[N][M];
+        arr = new boolean[N][M];
         for (int i = 0; i < N; i++) {
             char[] line = br.readLine().toCharArray();
             for (int j = 0; j < M; j++)
-                arr[i][j] = line[j] - '0';
+                arr[i][j] = (line[j] == '1');
         }
 
         System.out.println(solution());
@@ -31,15 +31,12 @@ public class Main {
         for (int i = 0; i < N; i++)
             Arrays.fill(visited[i], Integer.MAX_VALUE);
 
-        PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(o -> o[2]));
+        Deque<int[]> pq = new ArrayDeque<>();
         pq.add(new int[]{0, 0, 0});
 
         while (!pq.isEmpty()) {
             int[] cur = pq.poll();
             int x = cur[0], y = cur[1], cost = cur[2];
-
-            if (visited[x][y] <= cost) continue;
-            else visited[x][y] = cost;
 
             if (x == N-1 && y == M-1) return cost;
 
@@ -47,8 +44,18 @@ public class Main {
                 int nx = x + dx[i];
                 int ny = y + dy[i];
 
-                if (isVaild(nx, ny) && visited[nx][ny] > cost + arr[nx][ny])
-                    pq.add(new int[]{nx, ny, cost + arr[nx][ny]});
+                if (!isVaild(nx, ny)) continue;
+                if (arr[nx][ny]) {
+                    if (visited[nx][ny] > cost + 1) {
+                        visited[nx][ny] = cost + 1;
+                        pq.add(new int[]{nx, ny, cost + 1});
+                    }
+                } else {
+                    if (visited[nx][ny] > cost) {
+                        visited[nx][ny] = cost;
+                        pq.addFirst(new int[]{nx, ny, cost});
+                    }
+                }
             }
         }
 
