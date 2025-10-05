@@ -4,8 +4,8 @@ import java.io.*;
 public class Main {
     private static byte[][] arr;
 
-    private static final int[] dx = {-1, 1, 0, 0};
-    private static final int[] dy = {0, 0, -1, 1};
+    private static final int[] dx = {-1, 0, 0, 1};
+    private static final int[] dy = {0, -1, 1, 0};
     private static final int[] sharkPos = new int[2];
 
     private static int N, sharkSize = 2;
@@ -29,60 +29,35 @@ public class Main {
     private static int solution() {
         int eatFishCnt = 0, totalDistance = 0;
 
+        // 1. 상어 위치 파악
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                if (arr[i][j] == 9) {
+                    sharkPos[0] = i;
+                    sharkPos[1] = j;
+                    arr[i][j] = 0;
+                    break;
+                }
+            }
+        }
+
         while (true) {
-            int[] pos = new int[]{-1, -1, Integer.MAX_VALUE}; // 먹을 수 있는 물고기 위치
+            // 1-1. 상어 위치 0으로 초기화
+            arr[sharkPos[0]][sharkPos[1]] = 0;
 
-            // 1. 상어 위치 파악
-            for (int i = 0; i < N; i++) {
-                for (int j = 0; j < N; j++) {
-                    if (arr[i][j] == 9) {
-                        sharkPos[0] = i;
-                        sharkPos[1] = j;
-                        break;
-                    }
-                }
-            }
+            // 2. 상어 위치에서 가장 가까운 먹을 수 있는 물고기 위치 탐색
+            int[] pos = calDistance();
 
-            // 2. 상어 위치에서 각 칸까지의 거리 계산
-            int[][] dist = calDistance(sharkPos);
-
-            // 3. 상어 위치와 가장 가까운 먹을 수 있는 물고기 위치 탐색
-            for (int i = 0; i < N; i++) {
-                for (int j = 0; j < N; j++) {
-                    if (arr[i][j] != 9 && arr[i][j] != 0 && dist[i][j] != -1 && arr[i][j] < sharkSize) {
-                        int depth = dist[i][j];
-
-                        // 더 가까운 경우, 당연히 갱신
-                        if (depth < pos[2]) {
-                            pos[2] = depth;
-                            pos[0] = i;
-                            pos[1] = j;
-                        }
-
-                        // 거리가 같은 경우
-                        else if (depth == pos[2]) {
-                            // 더 위에 있는 경우
-                            if (i < pos[0]) {
-                                pos[0] = i;
-                                pos[1] = j;
-                            }
-                            // 같은 높이에 있는 경우, 더 왼쪽에 있는 물고기를 선택
-                            else if (i == pos[0] && j < pos[1])
-                                pos[1] = j;
-                        }
-                    }
-                }
-            }
-
-            // 3-1. 먹을 수 있는 물고기가 없다면 종료
+            // 2-1. 먹을 수 있는 물고기가 없다면 종료
             if (pos[2] == Integer.MAX_VALUE) break;
 
-            // 4. 상어를 그 위치로 이동
-            arr[sharkPos[0]][sharkPos[1]] = 0;
-            arr[pos[0]][pos[1]] = 9;
+            // 3. 물고기 먹기 & 상어 위치 갱신 & 이동 거리 누적
+            arr[pos[0]][pos[1]] = 0;
+            sharkPos[0] = pos[0];
+            sharkPos[1] = pos[1];
             totalDistance += pos[2];
 
-            // 5. 만약 먹은 물고기 수가 상어 크기와 같다면 상어 크기 증가
+            // 4. 만약 먹은 물고기 수가 상어 크기와 같다면 상어 크기 증가
             if (++eatFishCnt == sharkSize) {
                 sharkSize++;
                 eatFishCnt = 0;
@@ -92,11 +67,13 @@ public class Main {
         return totalDistance;
     }
 
-    private static int[][] calDistance(int[] sharkPos) {
+    private static int[] calDistance() {
         int[][] dist = new int[N][N];
         for (int i = 0; i < N; i++)
             Arrays.fill(dist[i], -1);
         dist[sharkPos[0]][sharkPos[1]] = 0;
+
+        int[] pos = new int[]{-1, -1, Integer.MAX_VALUE};
 
         Deque<int[]> q = new LinkedList<>();
         q.add(sharkPos);
@@ -106,18 +83,29 @@ public class Main {
             int x = cur[0];
             int y = cur[1];
 
+            if (arr[x][y] != 0 && arr[x][y] < sharkSize) {
+                if (dist[x][y] < pos[2] || (dist[x][y] == pos[2] && (x < pos[0] || (x == pos[0] && y < pos[1])))) {
+                    pos[0] = x;
+                    pos[1] = y;
+                    pos[2] = dist[x][y];
+                }
+            }
+
+            if (pos[2] < dist[x][y]) continue;
+
             for (int i = 0; i < 4; i++) {
                 int nx = x + dx[i];
                 int ny = y + dy[i];
 
                 if (isVaild(nx, ny) && dist[nx][ny] == -1 && arr[nx][ny] <= sharkSize) {
+                    if (dist[x][y] + 1 > pos[2]) continue;
                     dist[nx][ny] = dist[x][y] + 1;
-                    q.add(new int[] {nx, ny});
+                    q.add(new int[]{nx, ny});
                 }
             }
         }
 
-        return dist;
+        return pos;
     }
 
     private static boolean isVaild(int x, int y) {
