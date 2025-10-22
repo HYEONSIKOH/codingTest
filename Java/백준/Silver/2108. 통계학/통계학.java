@@ -45,36 +45,45 @@ public class Main {
 
     // 3. 최빈값: N개의 수들 중 가장 많이 나타나는 값 (여러 개 있을 때, 최빈값 중 두 번째로 작은 값)
     private static int mode() {
-        int[][] cnts = new int[8001][2];
+        boolean isFirst = false;
 
-        // 양수
-        for (int i = 0; i <= 4000; i++) {
-            cnts[i][0] = i; // 숫자
-            cnts[i][1] = 0; // 빈도수
+        int[] temp = {0, -1};
+        int cnt = 0;
+        for (int i = 0; i < N; i++) {
+            if (i == 0) cnt++;
+            else if (arr[i] == arr[i-1]) cnt++;
+            else {
+                if (temp[1] < cnt) {
+                    temp[0] = arr[i-1];
+                    temp[1] = cnt;
+                    isFirst = true;
+                }
+
+                else if (temp[1] == cnt) {
+                    if (isFirst) {
+                        temp[0] = arr[i-1];
+                        isFirst = false;
+                    }
+                }
+
+                cnt = 1;
+            }
         }
 
-        // 음수
-        for (int i = 4001; i <= 8000; i++) {
-            cnts[i][0] = -i + 4000; // 숫자
-            cnts[i][1] = 0; // 빈도수
+        if (temp[1] < cnt) {
+            temp[0] = arr[N-1];
+            temp[1] = cnt;
+        } else if (temp[1] == cnt) {
+            if (isFirst) {
+                temp[0] = arr[N-1];
+            }
         }
 
-        for (int i : arr) {
-            if (i >= 0) cnts[i][1]++;
-            else cnts[-i + 4000][1]++;
-        }
-
-        Arrays.sort(cnts, (a, b) -> {
-            if (a[1] == b[1]) return a[0] - b[0];
-            else return b[1] - a[1];
-        });
-
-        return (cnts[0][1] == cnts[1][1]) ? cnts[1][0] : cnts[0][0];
+        return temp[0];
     }
 
     // 4. 범위: N개의 수들 중 최댓값과 최솟값의 차이
     private static int range() {
         return arr[N - 1] - arr[0];
     }
-
 }
