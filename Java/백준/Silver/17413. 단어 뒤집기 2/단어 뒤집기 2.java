@@ -12,14 +12,15 @@ public class Main {
     }
 
     private static void solution(String str) {
-        Deque<Character> s = new ArrayDeque<>();
+        //Deque<Character> s = new ArrayDeque<>();
+        StringBuilder reverseTempSb = new StringBuilder();
 
         boolean isOpen = false;
-        int cnt = 0;
         for (char c : str.toCharArray()) {
             // 1. 열려고 하거나, 열려 있거나
             if ((c == '<' || isOpen) && c != '>') {
-                while (!s.isEmpty()) sb.append(s.pop());
+                sb.append(reverseTempSb.reverse());
+                reverseTempSb.setLength(0);
                 isOpen = true;
                 sb.append(c);
             }
@@ -32,14 +33,16 @@ public class Main {
 
             // 3. 공백을 만나는 경우
             else if (c == ' ') {
-                while (!s.isEmpty()) sb.append(s.pop());
+                sb.append(reverseTempSb.reverse());
+                reverseTempSb.setLength(0);
                 sb.append(c);
             }
 
             // 4. 나머지
-            else s.push(c);
+            else reverseTempSb.append(c);
         }
 
-        while (!s.isEmpty()) sb.append(s.pop());
+        sb.append(reverseTempSb.reverse());
+        reverseTempSb.setLength(0);
     }
 }
