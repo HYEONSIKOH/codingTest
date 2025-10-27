@@ -44,18 +44,11 @@ public class Main {
                     if (minecraft[i][j] > idx) {
                         block += minecraft[i][j] - idx;
                         time += 2 * (minecraft[i][j] - idx);
-                    }
-                }
-            }
-
-            for (int i = 0; i < N; i++) {
-                for (int j = 0; j < M; j++) {
-                    if (minecraft[i][j] < idx) {
+                    } else if (minecraft[i][j] < idx) {
                         block -= idx - minecraft[i][j];
                         time += idx - minecraft[i][j];
                     }
                 }
-                if (block < 0) break;
             }
 
             if (block >= 0) {
