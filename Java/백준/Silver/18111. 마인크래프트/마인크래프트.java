@@ -3,23 +3,19 @@ import java.io.*;
 
 public class Main {
     private static int[][] minecraft;
-
     private static int N, M, B;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
 
-        N = Integer.parseInt(st.nextToken());
-        M = Integer.parseInt(st.nextToken());
-        B = Integer.parseInt(st.nextToken());
+        N = readInt();
+        M = readInt();
+        B = readInt();
         minecraft = new int[N][M];
 
-        for (int i = 0; i < N; i++) {
-            st = new StringTokenizer(br.readLine());
+        for (int i = 0; i < N; i++)
             for (int j = 0; j < M; j++)
-                minecraft[i][j] = Integer.parseInt(st.nextToken());
-        }
+                minecraft[i][j] = readInt();
 
         int[] ans = solution();
         System.out.println(ans[0] + " " + ans[1]);
@@ -62,5 +58,11 @@ public class Main {
         }
 
         return ans;
+    }
+
+    private static int readInt() throws IOException {
+        int c, n = 0;
+        while((c = System.in.read()) > 32) n = (n << 3) + (n << 1) + (c & 15);
+        return n;
     }
 }
