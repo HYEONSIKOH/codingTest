@@ -6,13 +6,11 @@ public class Main {
     private static int N;
 
     public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-        N = Integer.parseInt(br.readLine());
+        N = readInt();
         arr = new int[N];
 
         for (int i = 0; i < N; i++)
-            arr[i] = Integer.parseInt(br.readLine());
+            arr[i] = readInt();
 
         System.out.print(solution());
     }
@@ -32,5 +30,11 @@ public class Main {
         double num = N * 0.15;
 
         return (int) Math.round(num);
+    }
+
+    private static int readInt() throws IOException {
+        int c, n = 0;
+        while((c = System.in.read()) > 32) n = (n << 3) + (n << 1) + (c & 15);
+        return n;
     }
 }
