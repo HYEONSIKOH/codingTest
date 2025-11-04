@@ -13,25 +13,29 @@ public class Main {
         N = Integer.parseInt(br.readLine());
         for (int i = 0; i < N; i++) {
             StringTokenizer st = new StringTokenizer(br.readLine());
-            String str = st.nextToken();
             
-            if (str.equals("push")) s.push(Integer.parseInt(st.nextToken()));
-
-            if (str.equals("pop")) {
-                if (s.isEmpty()) sb.append(-1 + "\n");
-                else sb.append(s.pop() + "\n");
-            }
-
-            if (str.equals("size")) sb.append(s.size() + "\n");
-
-            if (str.equals("empty")) {
-                if (s.isEmpty()) sb.append(1 + "\n");
-                else sb.append(0 + "\n");
-            }
-
-            if (str.equals("top")) {
-                if (s.isEmpty()) sb.append(-1 + "\n");
-                else sb.append(s.peek() + "\n");
+            switch (st.nextToken()) {
+            	case "push" :
+            		s.push(Integer.parseInt(st.nextToken()));
+            		break;
+            	
+            	case "pop":
+            		if (s.isEmpty()) sb.append(-1 + "\n");
+                    else sb.append(s.pop() + "\n");
+            		break;
+            	
+            	case "size":
+            		sb.append(s.size() + "\n");
+            		break;
+            	
+            	case "empty":
+            		if (s.isEmpty()) sb.append(1 + "\n");
+                    else sb.append(0 + "\n");
+            		break;
+            	
+            	case "top":
+            		if (s.isEmpty()) sb.append(-1 + "\n");
+                    else sb.append(s.peek() + "\n");
             }
         }
 
