@@ -23,18 +23,16 @@ public class Main {
     }
     
     private static int solution() {
-    	int[][] dp = new int[N + 1][K + 1];
+    	int[] dp = new int[K + 1];
     	
     	for (int i = 1; i <= N; i++) {
     		int WEIGHT = bags[i-1][0];
     		int VALUE = bags[i-1][1];
     		
-    		for (int j = 1; j <= K; j++) {
-    			if (WEIGHT <= j) dp[i][j] = Math.max(dp[i - 1][j], dp[i - 1][j - WEIGHT] + VALUE);
-    			else dp[i][j] = dp[i - 1][j];
-    		}
+    		for (int j = K; j >= WEIGHT; j--)
+    	        dp[j] = Math.max(dp[j], dp[j - WEIGHT] + VALUE);
     	}
     	
-    	return dp[N][K];
+    	return dp[K];
     }
 }
