@@ -1,4 +1,3 @@
-import java.util.*;
 import java.io.*;
 
 public class Main {
@@ -6,23 +5,19 @@ public class Main {
 	private static int N, K, cnt = 0;
 	
     public static void main(String[] args) throws IOException {
-    	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    	StringTokenizer st = new StringTokenizer(br.readLine());
-    	
-    	N = Integer.parseInt(st.nextToken());
-    	K = Integer.parseInt(st.nextToken());
+    	N = readInt();
+    	K = readInt();
     	
     	arr = new int[N];
-    	st = new StringTokenizer(br.readLine());
     	for (int i = 0; i < N; i++)
-    		arr[i] = Integer.parseInt(st.nextToken());
+    		arr[i] = readInt();
 
     	solution();
     }
     
     private static void solution() {
     	mergeSort(0, N - 1);
-        System.out.print(-1);
+    	System.out.print(-1);
     }
     
     private static void mergeSort(int s, int e) {
@@ -56,5 +51,11 @@ public class Main {
     	int idx = 0;
     	for (int i = s; i <= e; i++)
     		arr[i] = temp[idx++];
+    }
+    
+    private static int readInt() throws IOException {
+        int c, n = 0;
+        while((c = System.in.read()) > 32) n = (n << 3) + (n << 1) + (c & 15);
+        return n;
     }
 }
